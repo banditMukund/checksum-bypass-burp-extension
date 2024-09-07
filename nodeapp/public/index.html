@@ -1,0 +1,41 @@
+<html>
+<head>
+	<title>NodeApp</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js" integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+
+			function senddata()
+			{
+
+				const secret = 'your_secret_key_here';  
+
+				var yourname = document.getElementById("yourname").value;
+				console.log(yourname);
+				var data = {"userId": yourname};
+				const message = JSON.stringify(data);
+				console.log("message="+message);
+				const hash = CryptoJS.HmacSHA256(message, secret).toString();  // You can use other algorithms
+
+				fetch("/display", {
+				  method: "POST",
+				  body: JSON.stringify(data),
+				  headers: {
+				    "Content-type": "application/json", "X-Auth": hash
+				  }
+				});
+			}
+		
+	</script>
+</head>
+<body>
+	This is my new Node App.
+	<br><br>
+
+		Enter your Name <br><br>
+		<input type="text" id="yourname" name="yourname" value=""><br><br>
+		<button onclick="senddata()">Submit</button>
+
+
+	</form>
+</body>
+</html>
